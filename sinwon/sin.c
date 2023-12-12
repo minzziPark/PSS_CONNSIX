@@ -5,7 +5,28 @@
 #define BOARD_SIZE 19
 #define INFINITY 100000
 
-char board[BOARD_SIZE][BOARD_SIZE];
+char board[BOARD_SIZE][BOARD_SIZE] = 
+{
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','W','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','W','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','W','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','W','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+    {'E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E'},
+};
 
 typedef struct {
     int x;
@@ -17,19 +38,22 @@ int ai_color = 0; // 0->black, 1->white
 int direction_x[4] = {1, 0, 1, 1};
 int direction_y[4] = {0, 1, -1, 1};
 
+int defensive_score1 = 0;
+int defensive_score2 = 0;
+int attack_score1 = 0;
+int attack_score2 = 0;
+
 char set_color(int which_color) {
     return which_color == ai_color ? 'B' : 'W';
 }
 
 void print_board() {
-    printf("   ABCDEFGHJKLMNOPQRST\n");
-    for (int ver = BOARD_SIZE; ver > 0; ver--) {
-        printf("%2d ", ver);
-        for (int hor = 0; hor < BOARD_SIZE; hor++)
-            printf("%c", board[ver - 1][hor]);
-        printf(" %d\n", ver);
+    for(int i=0; i<BOARD_SIZE; i++){
+        for(int j=0; j<BOARD_SIZE; j++){
+            printf("%c ", board[i][j]);
+        }
+        printf("\n");
     }
-    printf("   ABCDEFGHJKLMNOPQRST\n");
 }
 
 int evaluate_4_way(int x, int y, char eval_color) {
@@ -69,10 +93,7 @@ int is_valid_move(int x, int y) {
 }
 
 int heuristic(int depth) {
-    // 휴리스틱을 사용하여 게임 상태를 빠르게 평가
     int score = evaluate_board();
-    
-    // 휴리스틱에 따라 평가 점수에 가중치 부여
     return score + depth;
 }
 
@@ -103,7 +124,6 @@ int minimax(int depth, int my_turn, int alpha, int beta) {
                 }
 
                 if (alpha >= beta) {
-                    // 가지치기
                     return best_score;
                 }
             }
@@ -139,36 +159,48 @@ Move find_best_position() {
     return best_position;
 }
 
-int main() {
-    // Initialize the board
+Move find_defensive_position() {
+    int best_score = INFINITY; // Initialize to INFINITY for defensive move
+    Move best_position = {-1, -1};
+
+    int alpha = -INFINITY;
+    int beta = INFINITY;
+
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
-            board[i][j] = 'E';
+            if (is_valid_move(i, j)) {
+                board[i][j] = set_color(!ai_color); // Assume opponent's move
+                int candidate_score = minimax(2, 1, alpha, beta);
+                board[i][j] = 'E';
+
+                if (candidate_score < best_score) { // For defensive move, we look for the minimum score
+                    best_score = candidate_score;
+                    best_position.x = i;
+                    best_position.y = j;
+                }
+            }
         }
     }
 
-    // Set an initial move (black at the center)
-    board[BOARD_SIZE / 2][BOARD_SIZE / 2] = 'B';
+    return best_position;
+}
 
-    // Print the initial board
-    print_board();
+int main() {
+		board[BOARD_SIZE / 2][BOARD_SIZE / 2] = 'B';
+    print_board(); // Print the initial board
 
-    // Find and print the best move for the AI (white)
-    Move best_move = find_best_position();
+    Move best_move = find_defensive_position(); // Find and print the best move for the AI (white)
+
     printf("Best Move: %c%d\n", 'A' + best_move.y, best_move.x + 1);
-    
-    // Make the best move for the AI
-    board[best_move.x][best_move.y] = set_color(ai_color);
+    board[best_move.x][best_move.y] = set_color(ai_color); // Make the best move for the AI
 
-    // Print the final board after the first move
-    print_board();
+    print_board(); // Print the board after the first move
 
-    // Find and print the best move for the AI (white) again
-    Move best_move2 = find_best_position();
-    board[best_move2.x][best_move2.y] = set_color(ai_color);
+    Move best_defensive_move = find_defensive_position(); // Find and print the best defensive move for the AI (white)
+    printf("Best Defensive Move: %c%d\n", 'A' + best_defensive_move.y, best_defensive_move.x + 1);
+    board[best_defensive_move.x][best_defensive_move.y] = set_color(ai_color); // Make the best defensive move for the AI
 
-    // Print the final board after the second move
-    print_board();
+    print_board(); // Print the board after the second move
 
     return 0;
 }
