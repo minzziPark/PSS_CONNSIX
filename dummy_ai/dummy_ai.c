@@ -16,7 +16,7 @@ typedef struct {
 } Move;
 
 int ai_color = 1; // 0->black, 1->white
-int ori_depth = 2;
+int ori_depth = 3;
 int a = -999999;
 int b =  999999;
 int abx1,aby1,abx2,aby2;
