@@ -192,6 +192,7 @@ main ()
 		print_board();
 
 		Move best_move1 = find_best_position();
+		
 		printf("Best Move: %c%d\n", 'A' + best_move1.y, best_move1.x + 1);
 
 		Move best_move2 = find_best_position();
