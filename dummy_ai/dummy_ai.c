@@ -15,7 +15,7 @@ typedef struct {
     int y;
 } Move;
 
-int ai_color = 0; // 0->black, 1->white
+int ai_color = 1; // 0->black, 1->white
 int ori_depth = 2;
 int a = -999999;
 int b =  999999;
@@ -81,7 +81,7 @@ int evaluate(int get_color){
 	}
 
 
-	// "|"
+	// 수직
 	for(int i=0;i<BOARD_SIZE;++i)
 	{
 			for(int j=0;j<BOARD_SIZE;++j)
@@ -96,26 +96,26 @@ int evaluate(int get_color){
 							switch(k)
 							{
 							case 6:
-									sum += s6; //�s��
+									sum += s6; 
 									break;
 							case 5:
-									if(left && right) sum += s5; //����
-									else if(left || right) sum += d5; //����
+									if(left && right) sum += s5; 
+									else if(left || right) sum += d5; 
 									break;
 							case 4:
-									if(left && right) sum += s4; //���|
-									else if(left || right) sum += d4; //���|
+									if(left && right) sum += s4; 
+									else if(left || right) sum += d4; 
 									break;
 							case 3:
-									if(left && right) sum += s3; //���T
-									else if(left || right) sum += d3; //���T
+									if(left && right) sum += s3; 
+									else if(left || right) sum += d3; 
 									break;
 							case 2:
-									if(left && right) sum += s2; //���G
-									else if(left || right) sum += d2; //���G
+									if(left && right) sum += s2; 
+									else if(left || right) sum += d2; 
 									break;
 							default:
-									if(k > 6) sum += s6; //�s��
+									if(k > 6) sum += s6; 
 									break;
 							}
 							j += k;
@@ -123,7 +123,7 @@ int evaluate(int get_color){
 			}
 	}
 
-	// "-"
+	// 수평
     for(int i=0;i<BOARD_SIZE;++i)
     {
         for(int j=0;j<BOARD_SIZE;++j)
@@ -138,26 +138,26 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum += s6; //�s��
+                    sum += s6; 
                     break;
                 case 5:
-                    if(left && right) sum += s5; //����
-                    else if(left || right) sum += d5; //����
+                    if(left && right) sum += s5;
+                    else if(left || right) sum += d5;
                     break;
                 case 4:
-                    if(left && right) sum += s4; //���|
-                    else if(left || right) sum += d4; //���|
+                    if(left && right) sum += s4; 
+                    else if(left || right) sum += d4;
                     break;
                 case 3:
-                    if(left && right) sum += s3; //���T
-                    else if(left || right) sum += d3; //���T
+                    if(left && right) sum += s3;
+                    else if(left || right) sum += d3; 
                     break;
                 case 2:
-                    if(left && right) sum += s2; //���G
-                    else if(left || right) sum += d2; //���G
+                    if(left && right) sum += s2; 
+                    else if(left || right) sum += d2; 
                     break;
                 default:
-                    if(k > 6) sum += s6; //�s��
+                    if(k > 6) sum += s6;
                     break;
                 }
                 j += k;
@@ -165,7 +165,7 @@ int evaluate(int get_color){
         }
     }
 
-	// "\" bot part
+	// 왼쪽사선
     for(int i=0;i<BOARD_SIZE;++i)
     {
         for(int j=0;j<BOARD_SIZE && j+i<BOARD_SIZE;++j)
@@ -180,23 +180,23 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum += s6; //�s��
+                    sum += s6;
                     break;
                 case 5:
-                    if(left && right) sum += s5; //����
-                    else if(left || right) sum += d5; //����
+                    if(left && right) sum += s5; 
+                    else if(left || right) sum += d5; 
                     break;
                 case 4:
-                    if(left && right) sum += s4; //���|
-                    else if(left || right) sum += d4; //���|
+                    if(left && right) sum += s4; 
+                    else if(left || right) sum += d4; 
                     break;
                 case 3:
-                    if(left && right) sum += s3; //���T
-                    else if(left || right) sum += d3; //���T
+                    if(left && right) sum += s3; 
+                    else if(left || right) sum += d3; 
                     break;
                 case 2:
-                    if(left && right) sum += s2; //���G
-                    else if(left || right) sum += d2; //���G
+                    if(left && right) sum += s2; 
+                    else if(left || right) sum += d2; 
                     break;
                 default:
                     if(k > 6) sum += s6; //�s��
@@ -206,7 +206,7 @@ int evaluate(int get_color){
             }
         }
     }
-    // "\" top part
+    // 위쪽 왼쪽 사선
     for(int i=1;i<BOARD_SIZE;++i)
     {
         for(int j=0;j<BOARD_SIZE && j+i<BOARD_SIZE;++j)
@@ -221,26 +221,26 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum += s6; //�s��
+                    sum += s6; 
                     break;
                 case 5:
-                    if(left && right) sum += s5; //����
-                    else if(left || right) sum += d5; //����
+                    if(left && right) sum += s5; 
+                    else if(left || right) sum += d5; 
                     break;
                 case 4:
-                    if(left && right) sum += s4; //���|
-                    else if(left || right) sum += d4; //���|
+                    if(left && right) sum += s4;
+                    else if(left || right) sum += d4; 
                     break;
                 case 3:
-                    if(left && right) sum += s3; //���T
-                    else if(left || right) sum += d3; //���T
+                    if(left && right) sum += s3; 
+                    else if(left || right) sum += d3;
                     break;
                 case 2:
-                    if(left && right) sum += s2; //���G
-                    else if(left || right) sum += d2; //���G
+                    if(left && right) sum += s2; 
+                    else if(left || right) sum += d2; 
                     break;
                 default:
-                    if(k > 6) sum += s6; //�s��
+                    if(k > 6) sum += s6;
                     break;
                 }
                 j += k;
@@ -248,7 +248,7 @@ int evaluate(int get_color){
         }
     }
 
-    // "\" top part
+    // 위쪽 오른쪽사선
     for(int i=BOARD_SIZE-1;i>=0;--i)
     {
         for(int j=0;j<BOARD_SIZE && i-j>=0;++j)
@@ -263,33 +263,33 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum += s6; //�s��
+                    sum += s6; 
                     break;
                 case 5:
-                    if(left && right) sum += s5; //����
-                    else if(left || right) sum += d5; //����
+                    if(left && right) sum += s5; 
+                    else if(left || right) sum += d5; 
                     break;
                 case 4:
-                    if(left && right) sum += s4; //���|
-                    else if(left || right) sum += d4; //���|
+                    if(left && right) sum += s4; 
+                    else if(left || right) sum += d4; 
                     break;
                 case 3:
-                    if(left && right) sum += s3; //���T
-                    else if(left || right) sum += d3; //���T
+                    if(left && right) sum += s3; 
+                    else if(left || right) sum += d3;
                     break;
                 case 2:
-                    if(left && right) sum += s2; //���G
-                    else if(left || right) sum += d2; //���G
+                    if(left && right) sum += s2; 
+                    else if(left || right) sum += d2; 
                     break;
                 default:
-                    if(k > 6) sum += s6; //�s��
+                    if(k > 6) sum += s6;
                     break;
                 }
                 j += k;
             }
         }
     }
-    // "\" top part
+    // 위쪽 오른쪽 사선
     for(int i=1;i<BOARD_SIZE;++i)
     {
         for(int j=BOARD_SIZE-1;j>=0 && i+18-j<BOARD_SIZE;--j)
@@ -304,26 +304,26 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum += s6; //�s��
+                    sum += s6; 
                     break;
                 case 5:
-                    if(left && right) sum += s5; //����
-                    else if(left || right) sum += d5; //����
+                    if(left && right) sum += s5; 
+                    else if(left || right) sum += d5; 
                     break;
                 case 4:
-                    if(left && right) sum += s4; //���|
-                    else if(left || right) sum += d4; //���|
+                    if(left && right) sum += s4;
+                    else if(left || right) sum += d4; 
                     break;
                 case 3:
-                    if(left && right) sum += s3; //���T
-                    else if(left || right) sum += d3; //���T
+                    if(left && right) sum += s3;
+                    else if(left || right) sum += d3; 
                     break;
                 case 2:
-                    if(left && right) sum += s2; //���G
-                    else if(left || right) sum += d2; //���G
+                    if(left && right) sum += s2; 
+                    else if(left || right) sum += d2; 
                     break;
                 default:
-                    if(k > 6) sum += s6; //�s��
+                    if(k > 6) sum += s6; 
                     break;
                 }
                 j -= k;
@@ -331,7 +331,7 @@ int evaluate(int get_color){
         }
     }
 
-    // "|"
+    // score 빼기 수직
     for(int i=0;i<BOARD_SIZE;++i)
     {
         for(int j=0;j<BOARD_SIZE;++j)
@@ -346,26 +346,26 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum -= s6; //�s��
+                    sum -= s6; 
                     break;
                 case 5:
-                    if(left && right) sum -= s5; //����
-                    else if(left || right) sum -= d5; //����
+                    if(left && right) sum -= s5; 
+                    else if(left || right) sum -= d5; 
                     break;
                 case 4:
-                    if(left && right) sum -= s4; //���|
-                    else if(left || right) sum -= d4; //���|
+                    if(left && right) sum -= s4; 
+                    else if(left || right) sum -= d4; 
                     break;
                 case 3:
-                    if(left && right) sum -= s3; //���T
-                    else if(left || right) sum -= d3; //���T
+                    if(left && right) sum -= s3;
+                    else if(left || right) sum -= d3; 
                     break;
                 case 2:
-                    if(left && right) sum -= s2; //���G
-                    else if(left || right) sum -= d2; //���G
+                    if(left && right) sum -= s2;
+                    else if(left || right) sum -= d2; 
                     break;
                 default:
-                    if(k > 6) sum -= s6; //�s��
+                    if(k > 6) sum -= s6; 
                     break;
                 }
                 j += k;
@@ -373,7 +373,7 @@ int evaluate(int get_color){
         }
     }
 
-    // "-"
+    // score 빼기 수평
     for(int i=0;i<BOARD_SIZE;++i)
     {
         for(int j=0;j<BOARD_SIZE;++j)
@@ -388,26 +388,26 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum -= s6; //�s��
+                    sum -= s6;
                     break;
                 case 5:
-                    if(left && right) sum -= s5; //����
-                    else if(left || right) sum -= d5; //����
+                    if(left && right) sum -= s5; 
+                    else if(left || right) sum -= d5; 
                     break;
                 case 4:
-                    if(left && right) sum -= s4; //���|
-                    else if(left || right) sum -= d4; //���|
+                    if(left && right) sum -= s4;
+                    else if(left || right) sum -= d4; 
                     break;
                 case 3:
-                    if(left && right) sum -= s3; //���T
-                    else if(left || right) sum -= d3; //���T
+                    if(left && right) sum -= s3; 
+                    else if(left || right) sum -= d3; 
                     break;
                 case 2:
-                    if(left && right) sum -= s2; //���G
-                    else if(left || right) sum -= d2; //���G
+                    if(left && right) sum -= s2; 
+                    else if(left || right) sum -= d2; 
                     break;
                 default:
-                    if(k > 6) sum -= s6; //�s��
+                    if(k > 6) sum -= s6; 
                     break;
                 }
                 j += k;
@@ -415,7 +415,7 @@ int evaluate(int get_color){
         }
     }
 
-    // "\" bot part
+    // 아래쪽 오른쪽 사선 score 빼기
     for(int i=0;i<BOARD_SIZE;++i)
     {
         for(int j=0;j<BOARD_SIZE && j+i<BOARD_SIZE;++j)
@@ -430,33 +430,33 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum -= s6; //�s��
+                    sum -= s6; 
                     break;
                 case 5:
-                    if(left && right) sum -= s5; //����
-                    else if(left || right) sum -= d5; //����
+                    if(left && right) sum -= s5; 
+                    else if(left || right) sum -= d5; 
                     break;
                 case 4:
-                    if(left && right) sum -= s4; //���|
-                    else if(left || right) sum -= d4; //���|
+                    if(left && right) sum -= s4; 
+                    else if(left || right) sum -= d4; 
                     break;
                 case 3:
-                    if(left && right) sum -= s3; //���T
-                    else if(left || right) sum -= d3; //���T
+                    if(left && right) sum -= s3; 
+                    else if(left || right) sum -= d3; 
                     break;
                 case 2:
-                    if(left && right) sum -= s2; //���G
-                    else if(left || right) sum -= d2; //���G
+                    if(left && right) sum -= s2; 
+                    else if(left || right) sum -= d2; 
                     break;
                 default:
-                    if(k > 6) sum -= s6; //�s��
+                    if(k > 6) sum -= s6;
                     break;
                 }
                 j += k;
             }
         }
     }
-    // "\" top part
+    // 위쪽 오른쪽 사선 score 빼기
     for(int i=1;i<BOARD_SIZE;++i)
     {
         for(int j=0;j<BOARD_SIZE && j+i<BOARD_SIZE;++j)
@@ -471,26 +471,26 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum -= s6; //�s��
+                    sum -= s6; 
                     break;
                 case 5:
-                    if(left && right) sum -= s5; //����
-                    else if(left || right) sum -= d5; //����
+                    if(left && right) sum -= s5;
+                    else if(left || right) sum -= d5; 
                     break;
                 case 4:
-                    if(left && right) sum -= s4; //���|
-                    else if(left || right) sum -= d4; //���|
+                    if(left && right) sum -= s4; 
+                    else if(left || right) sum -= d4; 
                     break;
                 case 3:
-                    if(left && right) sum -= s3; //���T
-                    else if(left || right) sum -= d3; //���T
+                    if(left && right) sum -= s3; 
+                    else if(left || right) sum -= d3; 
                     break;
                 case 2:
-                    if(left && right) sum -= s2; //���G
-                    else if(left || right) sum -= d2; //���G
+                    if(left && right) sum -= s2; 
+                    else if(left || right) sum -= d2; 
                     break;
                 default:
-                    if(k > 6) sum -= s6; //�s��
+                    if(k > 6) sum -= s6; 
                     break;
                 }
                 j += k;
@@ -498,7 +498,7 @@ int evaluate(int get_color){
         }
     }
 
-    // "\" top part
+    // 위쪽 오른쪽 사선 score 빼기
     for(int i=BOARD_SIZE-1;i>=0;--i)
     {
         for(int j=0;j<BOARD_SIZE && i-j>=0;++j)
@@ -513,33 +513,33 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum -= s6; //�s��
+                    sum -= s6; 
                     break;
                 case 5:
-                    if(left && right) sum -= s5; //����
-                    else if(left || right) sum -= d5; //����
+                    if(left && right) sum -= s5; 
+                    else if(left || right) sum -= d5; 
                     break;
                 case 4:
-                    if(left && right) sum -= s4; //���|
-                    else if(left || right) sum -= d4; //���|
+                    if(left && right) sum -= s4; 
+                    else if(left || right) sum -= d4; 
                     break;
                 case 3:
-                    if(left && right) sum -= s3; //���T
-                    else if(left || right) sum -= d3; //���T
+                    if(left && right) sum -= s3;
+                    else if(left || right) sum -= d3;
                     break;
                 case 2:
-                    if(left && right) sum -= s2; //���G
-                    else if(left || right) sum -= d2; //���G
+                    if(left && right) sum -= s2;
+                    else if(left || right) sum -= d2; 
                     break;
                 default:
-                    if(k > 6) sum -= s6; //�s��
+                    if(k > 6) sum -= s6;
                     break;
                 }
                 j += k;
             }
         }
     }
-    // "\" top part
+    // 위쪽 오른쪽 사선 score 빼기
     for(int i=1;i<BOARD_SIZE;++i)
     {
         for(int j=BOARD_SIZE-1;j>=0 && i+18-j<BOARD_SIZE;--j)
@@ -554,26 +554,26 @@ int evaluate(int get_color){
                 switch(k)
                 {
                 case 6:
-                    sum -= s6; //�s��
+                    sum -= s6; 
                     break;
                 case 5:
-                    if(left && right) sum -= s5; //����
-                    else if(left || right) sum -= d5; //����
+                    if(left && right) sum -= s5; 
+                    else if(left || right) sum -= d5; 
                     break;
                 case 4:
-                    if(left && right) sum -= s4; //���|
-                    else if(left || right) sum -= d4; //���|
+                    if(left && right) sum -= s4; 
+                    else if(left || right) sum -= d4;
                     break;
                 case 3:
-                    if(left && right) sum -= s3; //���T
-                    else if(left || right) sum -= d3; //���T
+                    if(left && right) sum -= s3; 
+                    else if(left || right) sum -= d3; 
                     break;
                 case 2:
-                    if(left && right) sum -= s2; //���G
-                    else if(left || right) sum -= d2; //���G
+                    if(left && right) sum -= s2; 
+                    else if(left || right) sum -= d2; 
                     break;
                 default:
-                    if(k > 6) sum -= s6; //�s��
+                    if(k > 6) sum -= s6; 
                     break;
                 }
                 j -= k;
@@ -696,7 +696,7 @@ main ()
 		stone = 'B';
 	}
 	else{
-		ai_color = 1;
+		ai_color = 0;
 		strcpy(opp_color, "black");
 		first = draw_and_read("");
 		stone = 'W';
@@ -717,8 +717,18 @@ main ()
 		board[abx1][aby1]= stone;
 		board[abx2][aby2]= stone;
 
-		snprintf(wbuf, 10, "%c%02d:%c%02d", aby1, abx1, aby2, abx2);
-		parsing_and_draw(board, wbuf, color);
+		printf("%d %d %d %d\n", abx1, aby1, abx2, aby2);
+		print_board();
+		char c_aby1;
+		char c_aby2;
+		if('A'+ aby1 >= 'I') c_aby1 = 'A'+ aby1+1;
+		else c_aby1 = 'A'+ aby1;
+		if('A'+ aby2 >= 'I') c_aby2 = 'A'+ aby2+1;
+		else c_aby2 = 'A'+ aby2;
+
+		snprintf(wbuf, 10, "%c%02d:%c%02d", c_aby1, 19-abx1, c_aby2, 19-abx2);
+		printf("%s\n", wbuf);
+		
 
 		char * rbuf = draw_and_read(wbuf) ;
 		if (rbuf == 0x0) {
