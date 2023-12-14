@@ -644,6 +644,8 @@ int alpha_beta_min(int alpha, int beta, int depth, int color){
 }
 
 int alpha_beta_max(int alpha, int beta, int depth, int color){
+	clock_t start_time = clock();
+	
 	int enemy = 1;
 	if(color == 1) enemy = 2;
   int maxscore = -999999999;
@@ -680,6 +682,12 @@ int alpha_beta_max(int alpha, int beta, int depth, int color){
 				}
 			}
 		}
+		clock_t current_time = clock();
+		double elapsed_time = (double)(current_time - start_time) / CLOCKS_PER_SEC;
+		if (elapsed_time >= 28) {
+				break;
+		}
+
 	}
 
 	return 1;
