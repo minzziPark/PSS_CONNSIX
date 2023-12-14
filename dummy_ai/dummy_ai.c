@@ -16,7 +16,7 @@ typedef struct {
 } Move;
 
 int ai_color = 1; // 0->black, 1->white
-int ori_depth = 3;
+int ori_depth = 2;
 int a = -999999;
 int b =  999999;
 int abx1,aby1,abx2,aby2;
@@ -25,12 +25,27 @@ char board[BOARD_SIZE][BOARD_SIZE];
 char wbuf[10] ;	
 int direction_x[4] = {1, 0, 1, 1};
 int direction_y[4] = {0, 1, -1, 1};
+int min_i = 9, max_i = 9;
+int min_j = 9, max_j = 9;
+
+void check_min_max_board(){
+	for(int i=0; i<BOARD_SIZE; i++){
+		for(int j=0; j<BOARD_SIZE; j++){
+			if(board[i][j] != 'E' && board[i][j] != 'R'){
+				if(i < min_i) min_i = i;
+				if(j < min_j) min_j = j;
+				if(i > max_i) max_i = i;
+				if(j > max_j) max_j = j;
+			}
+		}
+	}
+}
 
 void set_possible(){
 	for(int i=0; i<BOARD_SIZE; i++){
 		for(int j=0; j<BOARD_SIZE; j++){
 			if(board[i][j] == 'B' || board[i][j] == 'W'){
-				for(int k=1; k<3; k++){
+				for(int k=1; k<3; ++k){
 					if(j-k>=0 &&           board[ i ][j-k] == 'E') { board[ i ][j-k] = 'T'; }
 					if(j-k>=0 && i+k<BOARD_SIZE  && board[i+k][j-k] == 'E') { board[i+k][j-k] = 'T'; }
 					if(i+k<BOARD_SIZE  &&           board[i+k][ j ] == 'E') { board[i+k][ j ] = 'T'; }
@@ -68,6 +83,16 @@ int evaluate(int get_color){
         d3 = 300,
         s2 = 400,
         d2 = 100;
+
+	// int s6 = 0,
+  //       s5 = 1000000,
+  //       d5 = 2000,
+  //       s4 = 4000,
+  //       d4 = 2000,
+  //       s3 = 1000,
+  //       d3 = 300,
+  //       s2 = 400,
+  //       d2 = 100;
 	
 	int sum = 0;
 	bool left = false, right = false;
@@ -82,9 +107,9 @@ int evaluate(int get_color){
 
 
 	// 수직
-	for(int i=0;i<BOARD_SIZE;++i)
+	for(int i=min_i;i<max_i;++i)
 	{
-			for(int j=0;j<BOARD_SIZE;++j)
+			for(int j=min_j;j<max_j;++j)
 			{
 					left = right = false;
 					if(board[i][j] == color)
@@ -103,7 +128,7 @@ int evaluate(int get_color){
 									else if(left || right) sum += d5; 
 									break;
 							case 4:
-									if(left && right) sum += s4; 
+									if(left && right) sum += s4;
 									else if(left || right) sum += d4; 
 									break;
 							case 3:
@@ -124,9 +149,9 @@ int evaluate(int get_color){
 	}
 
 	// 수평
-    for(int i=0;i<BOARD_SIZE;++i)
+    for(int i=min_i;i<max_i;++i)
     {
-        for(int j=0;j<BOARD_SIZE;++j)
+        for(int j=min_j;j<max_j;++j)
         {
             left = right = false;
             if(board[j][i] == color)
@@ -145,7 +170,7 @@ int evaluate(int get_color){
                     else if(left || right) sum += d5;
                     break;
                 case 4:
-                    if(left && right) sum += s4; 
+                    if(left && right) sum += s4;
                     else if(left || right) sum += d4;
                     break;
                 case 3:
@@ -166,9 +191,9 @@ int evaluate(int get_color){
     }
 
 	// 왼쪽사선
-    for(int i=0;i<BOARD_SIZE;++i)
+    for(int i=min_i;i<max_i;++i)
     {
-        for(int j=0;j<BOARD_SIZE && j+i<BOARD_SIZE;++j)
+        for(int j=min_j;j<max_j && j+i<BOARD_SIZE;++j)
         {
             left = right = false;
             if(board[j][j+i] == color)
@@ -187,7 +212,7 @@ int evaluate(int get_color){
                     else if(left || right) sum += d5; 
                     break;
                 case 4:
-                    if(left && right) sum += s4; 
+                    if(left && right) sum += s4;
                     else if(left || right) sum += d4; 
                     break;
                 case 3:
@@ -270,7 +295,7 @@ int evaluate(int get_color){
                     else if(left || right) sum += d5; 
                     break;
                 case 4:
-                    if(left && right) sum += s4; 
+                    if(left && right) sum += s4;
                     else if(left || right) sum += d4; 
                     break;
                 case 3:
@@ -332,9 +357,9 @@ int evaluate(int get_color){
     }
 
     // score 빼기 수직
-    for(int i=0;i<BOARD_SIZE;++i)
+    for(int i=min_i;i<max_i;++i)
     {
-        for(int j=0;j<BOARD_SIZE;++j)
+        for(int j=min_j;j<max_j;++j)
         {
             left = right = false;
             if(board[i][j] == enemy)
@@ -374,9 +399,9 @@ int evaluate(int get_color){
     }
 
     // score 빼기 수평
-    for(int i=0;i<BOARD_SIZE;++i)
+    for(int i=min_i;i<max_i;++i)
     {
-        for(int j=0;j<BOARD_SIZE;++j)
+        for(int j=min_j;j<max_j;++j)
         {
             left = right = false;
             if(board[j][i] == enemy)
@@ -416,9 +441,9 @@ int evaluate(int get_color){
     }
 
     // 아래쪽 오른쪽 사선 score 빼기
-    for(int i=0;i<BOARD_SIZE;++i)
+    for(int i=min_i;i<max_i;++i)
     {
-        for(int j=0;j<BOARD_SIZE && j+i<BOARD_SIZE;++j)
+        for(int j=min_j;j<max_j && j+i<BOARD_SIZE;++j)
         {
             left = right = false;
             if(board[j][j+i] == enemy)
@@ -617,6 +642,7 @@ int alpha_beta_min(int alpha, int beta, int depth, int color){
 }
 
 int alpha_beta_max(int alpha, int beta, int depth, int color){
+	clock_t start_time = clock();
 	int enemy = 1;
 	if(color == 1) enemy = 2;
   int maxscore = -999999999;
@@ -653,6 +679,11 @@ int alpha_beta_max(int alpha, int beta, int depth, int color){
 				}
 			}
 		}
+		// clock_t current_time = clock();
+		// double elapsed_time = (double)(current_time - start_time) / CLOCKS_PER_SEC;
+		// if (elapsed_time >= 27) {
+		// 		break;
+		// }
 	}
 
 	return 1;
@@ -712,6 +743,7 @@ main ()
 	while (1) {
 		set_possible();
 		print_board();
+		check_min_max_board();
 
 		alpha_beta_max(a,b,ori_depth, ai_color);
 		board[abx1][aby1]= stone;
@@ -728,7 +760,6 @@ main ()
 
 		snprintf(wbuf, 10, "%c%02d:%c%02d", c_aby1, 19-abx1, c_aby2, 19-abx2);
 		printf("%s\n", wbuf);
-		
 
 		char * rbuf = draw_and_read(wbuf) ;
 		if (rbuf == 0x0) {
