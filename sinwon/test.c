@@ -9,6 +9,7 @@ int ori_depth = 2;
 int a = -999999;
 int b =  999999;
 int abx1,aby1,abx2,aby2;
+bool win = false;
 
 void gotoxy(int xpos, int ypos)
 {
@@ -176,14 +177,17 @@ int evaluate(int color)
                 {
                 case 6:
                     sum += s6; //�s��
+										win = true;
                     break;
                 case 5:
                     if(left && right) sum += s5; //����
                     else if(left || right) sum += d5; //����
+										win = true;
                     break;
                 case 4:
                     if(left && right) sum += s4; //���|
                     else if(left || right) sum += d4; //���|
+										
                     break;
                 case 3:
                     if(left && right) sum += s3; //���T
