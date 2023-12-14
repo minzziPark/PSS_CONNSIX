@@ -166,7 +166,7 @@ int minimax(int depth, int my_turn, int alpha, int beta, int defending) {
 
 Move find_best_position(int defending) {
     int best_score = -INFINITY;
-    Move best_position = {-1, -1, 0};
+    Move best_position = {-1, -1};
 
     int alpha = -INFINITY;
     int beta = INFINITY;
@@ -175,7 +175,7 @@ Move find_best_position(int defending) {
         for (int j = 0; j < BOARD_SIZE; j++) {
             if (is_valid_move(i, j)) {
                 board[i][j] = set_color(ai_color);
-                int candidate_score = minimax(3, 0, alpha, beta, defending); // depth 조절
+                int candidate_score = minimax(2, 0, alpha, beta, defending); // Adjust depth as needed
                 board[i][j] = 'E';
 
                 if (candidate_score > best_score) {
