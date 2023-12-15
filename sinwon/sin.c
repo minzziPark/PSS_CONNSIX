@@ -194,9 +194,9 @@ Move find_best_position(int defending) {
 int main()
 {
     board[BOARD_SIZE / 2][BOARD_SIZE / 2] = 'B';
-    print_board(); // Print the initial board
+    print_board();
 
-    Move best_move = find_best_position(0); // Find and print the best move for the AI (white)
+    Move best_move = find_best_position(0);
 
     printf("Best Move: %c%d\n", 'A' + best_move.y, best_move.x + 1);
     printf("score: %d\n", best_move.score);
